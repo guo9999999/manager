@@ -1,21 +1,21 @@
 /**
  * 环境配置
  */
-const env = import.meta.env.MODE || 'prod'
+const env = import.meta.env.MODE || 'production'
 
 const EnvConfig = {
-  dev: {
-    baseUrl: '',
+  development: {
+    baseApi: '/',
     mockApi:
       'https://www.fastmock.site/mock/a0fe68d47c653bd5a80d4239dd440ebe/_shop'
   },
   test: {
-    baseUrl: '',
+    baseApi: '',
     mockApi:
       'https://www.fastmock.site/mock/a0fe68d47c653bd5a80d4239dd440ebe/_shop'
   },
-  prod: {
-    baseUrl: '',
+  production: {
+    baseApi: '',
     mockApi:
       'https://www.fastmock.site/mock/a0fe68d47c653bd5a80d4239dd440ebe/_shop'
   }
