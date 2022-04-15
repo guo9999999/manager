@@ -1,0 +1,36 @@
+@charset "utf-8";
+@import '@/assets/style/variables.scss';
+.home-con {
+  display: flex;
+  width: 100vw;
+  height: 100%;
+  .right-con {
+    flex: 1;
+    .navbar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 9;
+      width: calc(100% - #{$sideBarWidth});
+      height: 50px;
+      border-bottom: 1px solid #eee;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .main-con {
+      padding: 50px 20px 0;
+    }
+    .outLogin-con {
+      height: 50px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .avatar-con {
+        padding-right: 20px;
+        cursor: pointer;
+        .icon-shezhi- {
+          color: #999;
+        }
+      }
+    }
+  }
+}

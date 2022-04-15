@@ -1,10 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const routes = [
+  // 重定向
   {
     path: '/',
-    name: 'index',
-    component: () => import('../views/home.vue')
+    redirect: '/home'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/index.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: () => import('@/views/home/index.vue')
   }
 ]
 
