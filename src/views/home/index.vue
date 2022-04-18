@@ -1,51 +1,81 @@
 <template>
   <div class="home-con">
     <!-- 侧边栏 -->
-    <sidebar></sidebar>
+    <div class="sidlebar">
+      <el-menu
+        class="el-menu-demo"
+        background-color="#304156"
+        text-color="#bfcbd9"
+        active-text-color="#ffffff"
+        :default-active="ActivePath"
+        router
+        unique-opened
+      >
+        <treeMenu :menuList="menuListData"></treeMenu>
+      </el-menu>
+    </div>
     <div class="right-con">
-      <!-- 头部导航栏 -->
+      <!-- 面包屑 -->
       <div class="navbar">
-        <el-dropdown class="outLogin-con" trigger="click">
-          <div class="avatar-con">
-            <el-avatar
-              class="avatar"
-              :size="40"
-              shape="square"
-              :src="$store.getters.userInfo.avatar"
-            />
-            <i class="iconfont icon-shezhi-"></i>
-          </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>首页</el-dropdown-item>
-              <el-dropdown-item>课程主页</el-dropdown-item>
-              <el-dropdown-item @click="outLigin">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <breadcrumb></breadcrumb>
+        <!-- 用户信息 -->
+        <div class="outlogin-con">
+          <el-badge class="mark" :is-dot="leaveCountData > 0">
+            <i class="iconfont guidezhiyin"></i>
+          </el-badge>
+          用户
+        </div>
       </div>
-      <!-- 主体内容 -->
-      <div class="main-con">主体内容</div>
+      <div class="main-con">中间内容</div>
     </div>
   </div>
 </template>
 
 <script setup>
-import sidebar from './sidebar/index.vue'
-import { onMounted } from 'vue'
-import { useStore } from 'vuex'
+import treeMenu from '@/components/treeMenu.vue'
+import breadcrumb from '@/components/breadcrumb.vue'
+import { computed, onMounted, ref } from 'vue'
+import { leaveCount, menuList } from '@/api/sys.js'
 
-// 获取优化信息
-const store = useStore()
-onMounted(() => {
-  store.dispatch('user/getUserInfo')
-})
+import { useRoute } from 'vue-router'
 
-// 退出登录操作
-const outLigin = () => {
-  store.commit('user/outLogin')
+/**
+ * 获取待审批通知数量
+ */
+const leaveCountData = ref(0)
+const getLeaveCount = async () => {
+  try {
+    const res = await leaveCount()
+    leaveCountData.value = res
+  } catch (err) {
+    console.log(err)
+  }
 }
+
+/**
+ * 获取菜单列表
+ */
+const menuListData = ref([])
+const getMenuList = async () => {
+  try {
+    const res = await menuList()
+    menuListData.value = res
+  } catch (err) {
+    console.log(err)
+  }
+}
+onMounted(() => {
+  getLeaveCount()
+  getMenuList()
+})
+// 当前菜单激活状态
+const route = useRoute()
+const ActivePath = computed(() => {
+  let { path } = route
+  console.log(path)
+  return path
+})
 </script>
 <style lang="scss" scoped>
-@import './index.scss';
+@import './index';
 </style>

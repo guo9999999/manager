@@ -9,14 +9,30 @@ import request from '../utils/request.js'
  */
 export const login = (data) => {
   return request({
-    url: '/sys/login',
+    url: '/users/login',
     method: 'post',
     data
   })
 }
 
-export const getUserInfo = () => {
+/**
+ *获取待审批通知数量
+ */
+export const leaveCount = (data = {}) => {
   return request({
-    url: '/sys/profile'
+    url: '/leave/count',
+    method: 'get',
+    data
+  })
+}
+/**
+ * 菜单列表
+ * @param {*} data
+ */
+export const menuList = (data) => {
+  return request({
+    url: '/menu/list',
+    method: 'post',
+    data
   })
 }

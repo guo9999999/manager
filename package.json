@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^17.0.24",
     "axios": "^0.26.1",
     "element-plus": "^2.1.9",
     "md5": "^2.3.0",

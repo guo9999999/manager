@@ -1,4 +1,4 @@
-import { login, getUserInfo } from '@/api/sys.js'
+import { login } from '@/api/sys.js'
 // 使用MD5进行密码加密
 import md5 from 'md5'
 import {
@@ -14,16 +14,12 @@ export default {
   // 命名空间
   namespaced: true,
   state: () => ({
-    token: localGetItem(TOKRN_KEY) || '',
-    userInfo: '' //用户信息
+    token: localGetItem(TOKRN_KEY) || ''
   }),
   mutations: {
     setToken(state, token) {
       localSetItem(TOKRN_KEY, token)
       state.token = token
-    },
-    setUserInfo(state, userinfo) {
-      state.userInfo = userinfo
     },
     // 退出登录
     outLogin(state) {
@@ -44,6 +40,7 @@ export default {
         })
           .then((res) => {
             // 成功操作，存储到本地
+            console.log(res)
             context.commit('setToken', res.token)
             // 获取当前登录时的时间，
             setTokenTime()
@@ -53,13 +50,6 @@ export default {
             reject(err)
           })
       })
-    },
-    // 获取用户信息
-    async getUserInfo(context) {
-      const res = await getUserInfo()
-      console.log(res)
-      context.commit('setUserInfo', res)
-      return res
     }
   }
 }
