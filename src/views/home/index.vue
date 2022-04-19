@@ -6,7 +6,7 @@
         class="el-menu-demo"
         background-color="#304156"
         text-color="#bfcbd9"
-        active-text-color="#ffffff"
+        active-text-color="#fff"
         :default-active="ActivePath"
         router
         unique-opened
@@ -26,7 +26,9 @@
           用户
         </div>
       </div>
-      <div class="main-con">中间内容</div>
+      <div class="main-con">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -70,12 +72,44 @@ onMounted(() => {
 })
 // 当前菜单激活状态
 const route = useRoute()
-const ActivePath = computed(() => {
+let ActivePath = computed(() => {
   let { path } = route
-  console.log(path)
   return path
 })
 </script>
 <style lang="scss" scoped>
-@import './index';
+@import '@/assets/style/variables.scss';
+.home-con {
+  position: relative;
+  .sidlebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: $sideBarWidth;
+    height: 100vh;
+    overflow: hidden;
+    transform: width 0.5s;
+    .el-menu-demo {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .right-con {
+    width: calc(100% - #{$sideBarWidth});
+    margin-left: $sideBarWidth;
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .main-con {
+      padding: 20px;
+      height: calc(100vh - 50px);
+      background-color: #eef0f3;
+    }
+  }
+}
 </style>

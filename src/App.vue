@@ -5,4 +5,7 @@
 <script setup>
 import {} from 'vue'
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+@import './assets/style/reset.css';
+@import './assets/style/index.scss';
+</style>

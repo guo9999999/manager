@@ -18,11 +18,12 @@ export const login = (data) => {
 /**
  *获取待审批通知数量
  */
-export const leaveCount = (data = {}) => {
+export const leaveCount = () => {
   return request({
     url: '/leave/count',
     method: 'get',
-    data
+    data: {},
+    mock: true
   })
 }
 /**
@@ -33,6 +34,19 @@ export const menuList = (data) => {
   return request({
     url: '/menu/list',
     method: 'post',
-    data
+    data,
+    mock: true
+  })
+}
+/**
+ * 用户列表
+ * @param {*} data
+ */
+export const usersList = (data) => {
+  return request({
+    url: '/users/list',
+    method: 'get',
+    data,
+    mock: true
   })
 }

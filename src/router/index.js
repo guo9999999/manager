@@ -9,7 +9,21 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/home/index.vue')
+    component: () => import('@/views/home/index.vue'),
+    redirect: '/system/user',
+    meta: {
+      title: '首页'
+    },
+    children: [
+      {
+        path: '/system/user',
+        name: 'manage',
+        component: () => import('../views/user/userManage.vue'),
+        meta: {
+          title: '用户管理'
+        }
+      }
+    ]
   }
 ]
 
