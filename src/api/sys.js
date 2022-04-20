@@ -50,3 +50,48 @@ export const usersList = (data) => {
     mock: true
   })
 }
+/**
+ * 删除用户
+ * @param {*} data
+ */
+export const usersDel = (data) => {
+  return request({
+    url: '/users/delete',
+    method: 'delete',
+    data,
+    mock: true
+  })
+}
+/**
+ * 获取部门信息
+ */
+export const deptList = () => {
+  return request({
+    url: '/dept/list',
+    method: 'get',
+    data: {},
+    mock: true
+  })
+}
+/**
+ * 获取角色名称列表
+ */
+export const rolesOperate = () => {
+  return request({
+    url: '/roles/operate',
+    method: 'get',
+    data: {},
+    mock: true
+  })
+}
+/**
+ * 创建用户
+ */
+export const userCreate = (data) => {
+  return request({
+    url: '/users/create',
+    method: 'post',
+    data,
+    mock: true
+  })
+}
