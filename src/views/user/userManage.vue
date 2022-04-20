@@ -75,6 +75,7 @@
         class="pagination"
         background
         layout="prev, pager, next"
+        :page-size="pager.pageSize"
         :total="pager.total"
         @current-change="handleCurrentChange"
       ></el-pagination>
@@ -183,10 +184,11 @@ import {
   userCreate
 } from '@/api/sys.js'
 import { ElMessage } from 'element-plus'
+import util from '../../utils/util.js'
 const user = ref({
   userId: '',
   userName: '',
-  state: 0
+  state: 1
 })
 
 // 表格数据
@@ -220,7 +222,8 @@ const columnData = ref([
   },
   {
     label: '用户邮箱',
-    prop: 'userEmail'
+    prop: 'userEmail',
+    width: 150
   },
   {
     label: '用户角色',
@@ -246,11 +249,19 @@ const columnData = ref([
   },
   {
     label: '注册时间',
-    prop: 'createTime'
+    prop: 'createTime',
+    width: 180,
+    formatter: (row, column, value) => {
+      return util.format(new Date(value))
+    }
   },
   {
     label: '最后登录时间',
-    prop: 'lastLoginTime'
+    prop: 'lastLoginTime',
+    width: 180,
+    formatter: (row, column, value) => {
+      return util.format(new Date(value))
+    }
   }
 ])
 
@@ -387,14 +398,18 @@ const handleClose = () => {
   // 清除表单数据
   userFormRef.value.resetFields()
 }
-// 添加用户操作
+// 添加和修改用户操作
 const handleAdd = () => {
   userFormRef.value.validate(async (valid) => {
     if (valid) {
       // 添加用户操作
       let params = toRaw(userFormData.value)
+      params.action = action.value
       const res = await userCreate(params)
-      ElMessage.success('添加用户成功')
+      console.log(res)
+      if (res) {
+        ElMessage.success(res.msg)
+      }
       // 重新获取用户列表
       getUsersList()
       // 调用关闭弹窗操作
@@ -410,6 +425,7 @@ const handleAdd = () => {
 const hangleEdit = (row) => {
   action.value = 'edit'
   isShowDialog.value = true
+  // 等弹窗框出来后，在进行渲染
   nextTick(() => {
     Object.assign(userFormData.value, row)
   })

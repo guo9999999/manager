@@ -47,7 +47,7 @@ export const usersList = (data) => {
     url: '/users/list',
     method: 'get',
     data,
-    mock: true
+    mock: false
   })
 }
 /**
@@ -58,8 +58,7 @@ export const usersDel = (data) => {
   return request({
     url: '/users/delete',
     method: 'delete',
-    data,
-    mock: true
+    data
   })
 }
 /**
@@ -91,7 +90,6 @@ export const userCreate = (data) => {
   return request({
     url: '/users/create',
     method: 'post',
-    data,
-    mock: true
+    data
   })
 }
