@@ -93,3 +93,15 @@ export const userCreate = (data) => {
     data
   })
 }
+/**
+ * 菜单创建，删除，编辑
+ *
+ */
+export const menuOperate = (data) => {
+  return request({
+    url: '/menu/create',
+    method: 'post',
+    data,
+    mock: true
+  })
+}

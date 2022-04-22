@@ -32,10 +32,10 @@ export default {
   actions: {
     // 登录
     login(context, userInfo) {
-      let { username, password } = userInfo
+      let { userName, password } = userInfo
       return new Promise((resolve, reject) => {
         login({
-          username,
+          userName,
           password: md5(password)
         })
           .then((res) => {

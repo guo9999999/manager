@@ -22,6 +22,14 @@ const routes = [
         meta: {
           title: '用户管理'
         }
+      },
+      {
+        path: '/system/menu',
+        name: 'menu',
+        component: () => import('../views/menu/menu.vue'),
+        meta: {
+          title: '菜单管理'
+        }
       }
     ]
   }

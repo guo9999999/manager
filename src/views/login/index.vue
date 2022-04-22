@@ -9,14 +9,14 @@
     >
       <div class="login-title"><h3>用户登录</h3></div>
       <!-- 用户 -->
-      <el-form-item prop="username">
+      <el-form-item prop="userName">
         <span class="svg-container">
           <i class="iconfont icon-jurassic_user"></i>
         </span>
         <el-input
           placeholder="用户账号"
-          v-model="loginForm.username"
-          name="username"
+          v-model="loginForm.userName"
+          name="userName"
           type="text"
         />
       </el-form-item>
@@ -60,12 +60,12 @@ import { Loading } from 'element-plus/es/components/loading/src/service'
 import { useRouter } from 'vue-router'
 // 定义表单数据
 const loginForm = ref({
-  username: 'super-admin',
-  password: '123456'
+  userName: '',
+  password: ''
 })
 // 验证表单规则
 const loginRules = ref({
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' },
     { min: 6, max: 16, message: '密码在6到16位之间', trigger: 'blur' }
@@ -92,7 +92,6 @@ const handleLogin = () => {
     // 验证表单是否输入
     if (!valid) return
     loading.value = true
-
     store
       .dispatch('user/login', loginForm.value)
       .then(() => {

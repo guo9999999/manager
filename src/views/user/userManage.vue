@@ -85,6 +85,7 @@
     <el-dialog
       v-model="isShowDialog"
       :title="action === 'edit' ? '用户修改' : '用户新增'"
+      @close="handleClose"
     >
       <el-form
         :model="userFormData"
