@@ -33,9 +33,9 @@ export const leaveCount = () => {
 export const menuList = (data) => {
   return request({
     url: '/menu/list',
-    method: 'post',
+    method: 'get',
     data,
-    mock: true
+    mock: false
   })
 }
 /**
@@ -100,6 +100,42 @@ export const userCreate = (data) => {
 export const menuOperate = (data) => {
   return request({
     url: '/menu/create',
+    method: 'post',
+    data,
+    mock: false
+  })
+}
+/**
+ * 获取角色信息
+ * @param {*} data
+ */
+export const roleList = (data) => {
+  return request({
+    url: '/roles/list',
+    method: 'get',
+    data,
+    mock: true
+  })
+}
+/**
+ * 角色创建，编辑，删除
+ * @param {*} data
+ */
+export const roleOperate = (data) => {
+  return request({
+    url: '/roles/operate',
+    method: 'post',
+    data,
+    mock: true
+  })
+}
+/**
+ * 角色设置权限
+ * @param {*} data
+ */
+export const rolesPermission = (data) => {
+  return request({
+    url: '/roles/update/permission',
     method: 'post',
     data,
     mock: true

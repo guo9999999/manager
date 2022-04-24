@@ -183,6 +183,7 @@
 import { onMounted, ref, nextTick } from 'vue'
 import { menuList, menuOperate } from '@/api/sys.js'
 import { ElMessage } from 'element-plus'
+import util from '@/utils/util.js'
 
 // 菜单搜索表单数据
 const menuData = ref({
@@ -201,7 +202,13 @@ const columnData = ref([
   },
   {
     prop: 'menuType',
-    label: '菜单类型'
+    label: '菜单类型',
+    formatter: (row, colmnu, value) => {
+      return {
+        1: '菜单',
+        2: '按钮'
+      }[value]
+    }
   },
   {
     prop: 'menuCode',
@@ -217,11 +224,21 @@ const columnData = ref([
   },
   {
     prop: 'menuState',
-    label: '菜单状态'
+    label: '菜单状态',
+    formatter: (row, colmnu, value) => {
+      return {
+        0: '在用',
+        1: '停用'
+      }[value]
+    }
   },
   {
     prop: 'createTime',
-    label: '创建时间'
+    label: '创建时间',
+    width: 100,
+    formatter: (row, colmnu, value) => {
+      return util.format(new Date(value))
+    }
   }
 ])
 onMounted(() => {
@@ -236,6 +253,7 @@ const getMenuList = async () => {
   let params = Object.assign(menuData.value)
 
   tableData.value = await menuList(params)
+  console.log(tableData.value)
 }
 
 // 查询操作
@@ -292,7 +310,10 @@ const handleCreate = (row) => {
   action.value = 'create'
   isShowDialog.value = true
   nextTick(() => {
-    Object.assign(menuFormData.value, row)
+    menuFormData.value.parentId = [...row.parentId, row._id].filter(
+      (item) => item
+    )
+    console.log(menuFormData.value.parentId)
   })
 }
 // 修改
@@ -310,16 +331,24 @@ const handleDel = async (_id) => {
     _id,
     action: action.value
   })
-  console.log(res)
+  getMenuList()
+  ElMessage.success(res.msg)
 }
 // 表单提交操作
-const handleSumbit = async () => {
-  let params = Object.assign(menuFormData.value)
-  params.action = action.value //当前是什么操作
-  const res = await menuOperate(params)
-  console.log(res)
-  ElMessage.success(res.msg)
-  handleClose()
+const handleSumbit = () => {
+  menuFormRef.value.validate(async (valid) => {
+    if (valid) {
+      let params = Object.assign(menuFormData.value)
+      params.action = action.value //当前是什么操作
+      console.log(params)
+      const res = await menuOperate(params)
+      getMenuList()
+      ElMessage.success(res.msg)
+      handleClose()
+    } else {
+      return false
+    }
+  })
 }
 // 表单重置
 const handleClose = () => {
