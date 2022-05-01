@@ -20,7 +20,9 @@
     <el-card class="role-list">
       <!-- 操作 -->
       <div class="action">
-        <el-button type="primary" @click="handleAdd">创建</el-button>
+        <el-button type="primary" @click="handleAdd" v-has="'role-create'"
+          >创建</el-button
+        >
       </div>
       <!-- 表格 -->
       <el-table :data="tableData" style="width: 100%">
@@ -39,6 +41,7 @@
               type="primary"
               size="small"
               @click="handleEdit(scope.row)"
+              v-has="'role-edit'"
               >编辑</el-button
             >
             <el-button
@@ -51,6 +54,7 @@
               type="danger"
               size="small"
               @click="handleDel(scope.row._id)"
+              v-has="'role-delete'"
               >删除</el-button
             >
           </template>
@@ -139,8 +143,8 @@ const tableData = ref([])
 // 获取角色列表信息
 const getRoleList = async () => {
   let params = roleData.value
-  const { list, page } = await roleList(params)
-  tableData.value = list
+  const res = await roleList(params)
+  tableData.value = res
 }
 onMounted(() => {
   getRoleList()
@@ -169,7 +173,16 @@ const columnData = ref([
   },
   {
     prop: 'permissionList',
-    label: '权限列表'
+    label: '权限列表',
+    formatter: (row, column, value) => {
+      let roleArr = []
+      let list = value.halfCheckedKeys || []
+      list.forEach((item) => {
+        let name = MenuMap.value[item]
+        if (item && name) roleArr.push(name)
+      })
+      return roleArr.join(' , ')
+    }
   },
   {
     prop: 'createTime',
@@ -204,6 +217,7 @@ const handleEdit = (row) => {
   isShowDialog.value = true
   nextTick(() => {
     let params = {
+      _id: row._id,
       roleName: row.roleName,
       remark: row.remark
     }
@@ -212,8 +226,10 @@ const handleEdit = (row) => {
 }
 // 删除操作
 const handleDel = async (_id) => {
-  roleFormData.value._id = _id
-  await roleOperate(roleFormData.value)
+  let params = { _id }
+  params.action = 'delete'
+  const res = await roleOperate(params)
+  ElMessage.success(res.msg)
   getRoleList()
 }
 // 提交操作
@@ -223,9 +239,9 @@ const handleSumbit = () => {
       let params = Object.assign(roleFormData.value)
       params.action = action.value
       const res = await roleOperate(params)
+      ElMessage.success(res.msg)
       getRoleList()
       handleClose()
-      console.log(res)
     } else {
       return false
     }
@@ -239,10 +255,36 @@ const handleClose = () => {
 
 // 设置权限
 const isShowPermission = ref(false)
+
 // 获取菜单列表
 const menuData = ref([])
+const MenuMap = ref({}) //菜单映射表
 const getMenuList = async () => {
   menuData.value = await menuList()
+  // 进行深拷贝
+  let list = JSON.parse(JSON.stringify(menuData.value))
+  MenuMap.value = getMenuMap(list)
+}
+
+/**
+ * 创建菜单映射表
+ */
+const getMenuMap = (list) => {
+  let listMap = {}
+  const deepFun = (arr) => {
+    while (arr.length) {
+      let item = arr.pop() // 从最后拿出一个对象
+      if (item.children && item.action) {
+        //如果有children 并且有action 表示里面有按钮菜单
+        listMap[item._id] = item.menuName
+      } else if (item.children && !item.action) {
+        // 则说明当前为一级菜单
+        deepFun(item.children)
+      }
+    }
+  }
+  deepFun(list)
+  return listMap
 }
 
 // 选择权限
@@ -284,7 +326,9 @@ const handlePermissionSumbit = async () => {
     }
   }
   const res = await rolesPermission(parans)
-  console.log(res)
+  getRoleList()
+  ElMessage.success('权限成功')
+  handlePermissionClose()
 }
 </script>
 <style lang="scss" scoped>

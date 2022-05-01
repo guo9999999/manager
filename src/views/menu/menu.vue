@@ -194,7 +194,8 @@ const menuData = ref({
 const columnData = ref([
   {
     prop: 'menuName',
-    label: '菜单名称'
+    label: '菜单名称',
+    width: 140
   },
   {
     prop: 'icon',
@@ -253,7 +254,6 @@ const getMenuList = async () => {
   let params = Object.assign(menuData.value)
 
   tableData.value = await menuList(params)
-  console.log(tableData.value)
 }
 
 // 查询操作

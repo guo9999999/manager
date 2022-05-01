@@ -33,8 +33,12 @@
     <el-card class="user-list">
       <!-- 操作 -->
       <div class="action">
-        <el-button type="primary" @click="handleCreate">新增</el-button>
-        <el-button type="danger" @click="handleAllDel">批量删除</el-button>
+        <el-button type="primary" @click="handleCreate" v-has="'user-create'"
+          >新增</el-button
+        >
+        <el-button type="danger" @click="handleAllDel" v-has="'user-all-delete'"
+          >批量删除</el-button
+        >
       </div>
       <!-- 表格 -->
       <el-table
@@ -59,11 +63,13 @@
               type="primary"
               size="small"
               @click="hangleEdit(scope.row)"
+              v-has="'user-edit'"
               >编辑</el-button
             >
             <el-button
               type="danger"
               size="small"
+              v-has="'user-delete'"
               @click="handleUserDel(scope.row)"
               >删除</el-button
             >
@@ -181,7 +187,7 @@ import {
   usersList,
   usersDel,
   deptList,
-  rolesOperate,
+  roleList,
   userCreate
 } from '@/api/sys.js'
 import { ElMessage } from 'element-plus'
@@ -208,7 +214,7 @@ const getUsersList = async () => {
 onMounted(() => {
   getUsersList()
   getDeptList()
-  getRolesOperate()
+  getRolesList()
 })
 
 // 定义一个表格头
@@ -386,9 +392,9 @@ const getDeptList = async () => {
 }
 // 获取角色名称列表
 const roleListData = ref([])
-const getRolesOperate = async () => {
-  const roleList = await rolesOperate()
-  roleListData.value = roleList
+const getRolesList = async () => {
+  const list = await roleList()
+  roleListData.value = list
 }
 
 // 用户弹窗取消操作

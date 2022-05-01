@@ -6,7 +6,11 @@ import {
   localSetItem,
   localRemoveItem
 } from '../../utils/storage.js'
-import { TOKRN_KEY } from '../../constant/index.js'
+import {
+  TOKRN_KEY,
+  MENU_LIST_KEY,
+  ACRTION_LIST_KEY
+} from '../../constant/index.js'
 import router from '@/router'
 import { setTokenTime } from '@/utils/tokenTime.js'
 
@@ -14,7 +18,9 @@ export default {
   // 命名空间
   namespaced: true,
   state: () => ({
-    token: localGetItem(TOKRN_KEY) || ''
+    token: localGetItem(TOKRN_KEY) || '',
+    menuList: localGetItem(MENU_LIST_KEY) || [], //菜单列表
+    actionList: localGetItem(ACRTION_LIST_KEY) || [] //当前权限按钮列表
   }),
   mutations: {
     setToken(state, token) {
@@ -27,6 +33,16 @@ export default {
       state.userInfo = ''
       localRemoveItem(TOKRN_KEY)
       router.push('/login')
+    },
+    //设置存储菜单列表
+    setMenuList(state, menuList) {
+      state.menuList = menuList
+      localSetItem(MENU_LIST_KEY, menuList)
+    },
+    //设置存储权限按钮列表
+    setActionList(state, actionList) {
+      state.actionList = actionList
+      localSetItem(ACRTION_LIST_KEY, actionList)
     }
   },
   actions: {

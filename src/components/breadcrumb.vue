@@ -10,13 +10,13 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 // 获取面包屑数据
-const breadcrumbData = ref([])
 const route = useRoute()
-onMounted(() => {
-  breadcrumbData.value = route.matched
+const breadcrumbData = computed(() => {
+  return route.matched
 })
+computed
 </script>
 <style lang="scss" scoped></style>

@@ -64,12 +64,12 @@ export const usersDel = (data) => {
 /**
  * 获取部门信息
  */
-export const deptList = () => {
+export const deptList = (data) => {
   return request({
     url: '/dept/list',
     method: 'get',
-    data: {},
-    mock: true
+    data: data,
+    mock: false
   })
 }
 /**
@@ -80,7 +80,7 @@ export const rolesOperate = () => {
     url: '/roles/operate',
     method: 'get',
     data: {},
-    mock: true
+    mock: false
   })
 }
 /**
@@ -114,7 +114,7 @@ export const roleList = (data) => {
     url: '/roles/list',
     method: 'get',
     data,
-    mock: true
+    mock: false
   })
 }
 /**
@@ -126,7 +126,7 @@ export const roleOperate = (data) => {
     url: '/roles/operate',
     method: 'post',
     data,
-    mock: true
+    mock: false
   })
 }
 /**
@@ -136,6 +136,52 @@ export const roleOperate = (data) => {
 export const rolesPermission = (data) => {
   return request({
     url: '/roles/update/permission',
+    method: 'post',
+    data,
+    mock: false
+  })
+}
+// 创建部门信息
+export const deptOperate = (data) => {
+  return request({
+    url: '/dept/operate',
+    method: 'post',
+    data,
+    mock: false
+  })
+}
+
+// 获取所有用户列表
+export const allUserList = () => {
+  return request({
+    url: '/users/all/list',
+    method: 'get',
+    data: {},
+    mock: false
+  })
+}
+//获取当前用户的权限
+export const getPermissionList = () => {
+  return request({
+    url: '/users/getPermissionList',
+    method: 'get',
+    data: {},
+    mock: false
+  })
+}
+// 获取审批列表·
+export const leaveList = (data) => {
+  return request({
+    url: 'leave/list',
+    method: 'get',
+    data,
+    mock: true
+  })
+}
+
+export const leaveOperate = (data) => {
+  return request({
+    url: 'leave/operate',
     method: 'post',
     data,
     mock: true

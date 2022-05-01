@@ -38,8 +38,29 @@ const routes = [
         meta: {
           title: '角色管理'
         }
+      },
+      {
+        path: '/system/dept',
+        name: 'dept',
+        component: () => import('../views/dept/dept.vue'),
+        meta: {
+          title: '部门管理'
+        }
+      },
+      {
+        path: '/audit/leave',
+        name: 'leave',
+        component: () => import('../views/leave/leave.vue'),
+        meta: {
+          title: '休假审批'
+        }
       }
     ]
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('../views/404/404.vue')
   }
 ]
 

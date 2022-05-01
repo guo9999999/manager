@@ -27,7 +27,15 @@
         </div>
       </div>
       <div class="main-con">
-        <router-view></router-view>
+        <router-view v-slot="{ Component, route }">
+          <transition name="fade-transform" mode="out-in">
+            <keep-alive>
+              <div :key="route.path">
+                <component :is="Component"></component>
+              </div>
+            </keep-alive>
+          </transition>
+        </router-view>
       </div>
     </div>
   </div>
@@ -37,9 +45,10 @@
 import treeMenu from '@/components/treeMenu.vue'
 import breadcrumb from '@/components/breadcrumb.vue'
 import { computed, onMounted, ref } from 'vue'
-import { leaveCount, menuList } from '@/api/sys.js'
+import { leaveCount, menuList, getPermissionList } from '@/api/sys.js'
 
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 /**
  * 获取待审批通知数量
@@ -57,11 +66,14 @@ const getLeaveCount = async () => {
 /**
  * 获取菜单列表
  */
+const state = useStore()
 const menuListData = ref([])
 const getMenuList = async () => {
   try {
-    const res = await menuList()
-    menuListData.value = res
+    const { menuList, actionList } = await getPermissionList()
+    menuListData.value = menuList
+    state.commit('user/setMenuList', menuList)
+    state.commit('user/setActionList', actionList)
   } catch (err) {
     console.log(err)
   }
@@ -79,6 +91,20 @@ let ActivePath = computed(() => {
 </script>
 <style lang="scss" scoped>
 @import '@/assets/style/variables.scss';
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.3s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(-50px);
+}
 .home-con {
   position: relative;
   .sidlebar {
