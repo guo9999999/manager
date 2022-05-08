@@ -80,11 +80,12 @@
       <el-pagination
         class="pagination"
         background
-        layout="prev, pager, next"
+        :current-page="pager.pageNum"
         :page-size="pager.pageSize"
+        layout="total, prev, pager, next"
         :total="pager.total"
         @current-change="handleCurrentChange"
-      ></el-pagination>
+      />
     </el-card>
 
     <!-- 弹出添加表单 -->

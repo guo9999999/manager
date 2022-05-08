@@ -29,7 +29,7 @@
           :formatter="item.formatter"
           :key="item.prop"
         ></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="150">
           <template #default="scope">
             <el-button
               size="small"

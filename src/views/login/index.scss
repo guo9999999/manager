@@ -8,11 +8,15 @@ $cursor: #fff;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 0 35px 0;
     margin: 0 auto;
     overflow: hidden;
 
@@ -64,5 +68,9 @@ $cursor: #fff;
       color: $light_gray;
       margin: 0px auto 40px auto;
     }
+  }
+  .tootip {
+    color: #fff;
+    line-height: 2;
   }
 }

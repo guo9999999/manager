@@ -8,6 +8,8 @@
 import {} from 'vue'
 import { ElConfigProvider } from 'element-plus'
 import zhcn from 'element-plus/lib/locale/lang/zh-cn'
+import { generateNewStyle, writeStyle } from './utils/theme.js'
+import { useStore } from 'vuex'
 export default {
   name: 'App',
   components: {
@@ -16,6 +18,10 @@ export default {
   setup() {
     // 中文
     let locale = zhcn
+    const state = useStore()
+    generateNewStyle(state.getters.defaultColor).then((res) => {
+      writeStyle(res)
+    })
 
     return {
       locale
@@ -23,7 +29,4 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import './assets/style/reset.css';
-@import './assets/style/index.scss';
-</style>
+<style lang="scss"></style>

@@ -23,7 +23,7 @@ export const leaveCount = () => {
     url: '/leave/count',
     method: 'get',
     data: {},
-    mock: true
+    mock: false
   })
 }
 /**
@@ -175,15 +175,24 @@ export const leaveList = (data) => {
     url: 'leave/list',
     method: 'get',
     data,
-    mock: true
+    mock: false
   })
 }
-
+//申请休假
 export const leaveOperate = (data) => {
   return request({
     url: 'leave/operate',
     method: 'post',
     data,
-    mock: true
+    mock: false
+  })
+}
+// 审批
+export const leaveApprove = (data) => {
+  return request({
+    url: 'leave/approve',
+    method: 'post',
+    data,
+    mock: false
   })
 }

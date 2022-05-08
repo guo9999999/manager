@@ -10,7 +10,7 @@
       :key="menu._id"
     >
       <template #title>
-        <i :class="menu.icon"></i>
+        <i class="iconfont" :class="menu.icon"></i>
         <span> {{ menu.menuName }}</span>
       </template>
       <!-- 重新调用自己 -->
@@ -20,7 +20,9 @@
       v-else-if="menu.menuType == 1"
       :index="menu.path"
       :key="menu._id"
-      >{{ menu.menuName }}</el-menu-item
+    >
+      <i class="iconfont" :class="menu.icon"></i>
+      <span> {{ menu.menuName }}</span></el-menu-item
     >
   </template>
 </template>
@@ -35,4 +37,8 @@ defineProps({
   }
 })
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.iconfont {
+  padding-right: 5px;
+}
+</style>

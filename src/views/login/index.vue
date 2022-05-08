@@ -11,7 +11,7 @@
       <!-- 用户 -->
       <el-form-item prop="userName">
         <span class="svg-container">
-          <i class="iconfont icon-jurassic_user"></i>
+          <i class="iconfont icon-icon-user"></i>
         </span>
         <el-input
           placeholder="用户账号"
@@ -31,6 +31,7 @@
           v-model="loginForm.password"
           name="password"
           :type="PwdType"
+          @keyup.enter="handleLogin"
         />
         <span class="pwd" @click="handleShowPwd">
           <i
@@ -50,6 +51,10 @@
         >
       </el-form-item>
     </el-form>
+    <div class="tootip">
+      <p>用户名：admin</p>
+      <p>密码：123456</p>
+    </div>
   </div>
 </template>
 
@@ -58,6 +63,7 @@ import { useStore } from 'vuex'
 import { ref } from 'vue'
 import { Loading } from 'element-plus/es/components/loading/src/service'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 // 定义表单数据
 const loginForm = ref({
   userName: '',
@@ -75,7 +81,6 @@ const loginRules = ref({
 const PwdType = ref('password')
 const handleShowPwd = () => {
   // 如果为true,则显示密码，否则隐藏密码
-  console.log(PwdType.value)
   if (PwdType.value === 'password') {
     PwdType.value = 'text'
   } else {
@@ -88,23 +93,20 @@ const loginFormRef = ref(null)
 const loading = ref(false)
 const router = useRouter()
 const handleLogin = () => {
-  loginFormRef.value.validate((valid) => {
+  loginFormRef.value.validate(async (valid) => {
     // 验证表单是否输入
     if (!valid) return
     loading.value = true
-    store
-      .dispatch('user/login', loginForm.value)
-      .then(() => {
-        // 登录成功操作
-        loading.value = false
-        // 跳转到首页
-        router.push('/')
-      })
-      .catch((err) => {
-        // 失败操作
-        loading.value = false
-        console.log(err)
-      })
+    try {
+      const res = await store.dispatch('user/login', loginForm.value)
+      ElMessage.success('登录成功')
+      // 登录成功操作
+      loading.value = false
+      // 跳转到首页
+      router.push('/')
+    } catch (error) {
+      ElMessage.error(error.message)
+    }
   })
 }
 </script>

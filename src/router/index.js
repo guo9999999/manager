@@ -4,11 +4,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    meta: {
+      title: '用户登录'
+    },
     component: () => import('@/views/login/index.vue')
   },
   {
     path: '/',
-    name: 'home',
     component: () => import('@/views/home/index.vue'),
     redirect: '/system/user',
     meta: {
@@ -54,6 +56,14 @@ const routes = [
         meta: {
           title: '休假审批'
         }
+      },
+      {
+        path: '/audit/approve',
+        name: 'approve',
+        component: () => import('../views/approve/approve.vue'),
+        meta: {
+          title: '待审批'
+        }
       }
     ]
   },
@@ -68,4 +78,28 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+// 判断当前地址是否可以访问
+// function checkPermission(path) {
+//   let hasPermission = router
+//     .getRoutes()
+//     .filter((route) => route.path == path).length
+//   //  return  router.hasRoute(path)
+//   //所有路由的数组
+//   if (hasPermission) {
+//     return true
+//   } else {
+//     return false
+//   }
+// }
+// 导航守卫
+router.beforeEach((to, from, next) => {
+  if (router.hasRoute(to.name)) {
+    document.title = to.meta.title
+    next()
+  } else {
+    next('/404')
+  }
+})
+
 export default router

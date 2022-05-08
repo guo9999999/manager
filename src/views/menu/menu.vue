@@ -340,7 +340,7 @@ const handleSumbit = () => {
     if (valid) {
       let params = Object.assign(menuFormData.value)
       params.action = action.value //当前是什么操作
-      console.log(params)
+
       const res = await menuOperate(params)
       getMenuList()
       ElMessage.success(res.msg)

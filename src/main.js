@@ -5,8 +5,9 @@ import store from './store'
 
 import './assets/style/index.scss'
 import './assets/icon/iconfont.css'
+
 // 登录鉴权
-import './permission.js'
+// import './permission.js'
 
 console.log(import.meta.env)
 const app = createApp(App)

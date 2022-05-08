@@ -22,6 +22,9 @@ service.interceptors.request.use((req) => {
   if (store.getters.token) {
     req.headers.Authorization = `Bearer ${store.getters.token}`
 
+    if (router.path === '/login') {
+      router.push('/')
+    }
     // 判断当前token是否失效
     if (isCheckTime()) {
       // token失效，调用退出操作方法
@@ -29,6 +32,8 @@ service.interceptors.request.use((req) => {
       ElMessage.error('token已失效')
       return Promise.reject(new Error('token已失效'))
     }
+  } else {
+    router.push('/login')
   }
 
   return req
